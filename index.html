@@ -1,1 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meu Portfólio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Epilogue:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --coral: #FF5C5C;
+      --yellow: #FFD93D;
+      --mint: #6BCB77;
+      --blue: #4D96FF;
+      --purple: #C77DFF;
+      --dark: #0F0F0F;
+      --light: #F9F5EE;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Epilogue', sans-serif;
+      background: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+    }
+
+    /* ── CURSOR ── */
+    body { cursor: none; }
+    #cursor {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--yellow);
+      pointer-events: none;
+      mix-blend-mode: difference;
+      transition: transform 0.15s ease;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 3rem;
+      backdrop-filter: blur(12px);
+      background: rgba(15,15,15,0.6);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.4rem;
+      color: var(--yellow);
+      letter-spacing: -0.03em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--light);
+      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+      position: relative; padding-bottom: 4px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--coral);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 3rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 60% 60% at 80% 50%,
+        rgba(255,92,92,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 20% 80%,
+        rgba(77,150,255,0.12) 0%, transparent 70%);
+    }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.35;
+      animation: float 8s ease-in-out infinite;
+    }
+    .blob-1 { width: 400px; height: 400px; background: var(--coral); top: -100px; right: -80px; }
+    .blob-2 { width: 300px; height: 300px; background: var(--blue); bottom: 0; right: 200px; animation-delay: -3s; }
+    .blob-3 { width: 200px; height: 200px; background: var(--purple); top: 50%; left: 55%; animation-delay: -5s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 750px; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--yellow); color: var(--dark);
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 800; line-height: 0.95;
+      letter-spacing: -0.04em;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+    h1 .line { display: block; }
+    h1 .accent { color: var(--coral); }
+    h1 .accent-2 { color: var(--mint); }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      font-size: 1.1rem; font-weight: 300; line-height: 1.7;
+      color: rgba(249,245,238,0.65);
+      max-width: 480px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-cta {
+      margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 999px;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+      text-decoration: none; border: none; cursor: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+    .btn-primary { background: var(--coral); color: #fff; }
+    .btn-outline { background: transparent; color: var(--light); border: 2px solid rgba(249,245,238,0.3); }
+    .btn-outline:hover { border-color: var(--light); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 7rem 3rem; }
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--yellow); margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative; height: 420px;
+    }
+    .about-card {
+      position: absolute;
+      border-radius: 24px; padding: 2rem;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+    }
+    .card-big {
+      width: 280px; height: 280px;
+      background: var(--coral);
+      top: 0; left: 0;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      font-size: 1.1rem;
+    }
+    .card-big .num { font-size: 4rem; line-height: 1; }
+    .card-mid {
+      width: 180px; height: 180px;
+      background: var(--blue);
+      bottom: 0; left: 120px;
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center;
+      font-size: 0.9rem;
+    }
+    .card-sm {
+      width: 120px; height: 120px;
+      background: var(--yellow); color: var(--dark);
+      top: 60px; right: 0;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; font-size: 0.8rem;
+    }
+    .about-text h2 { margin-bottom: 1.5rem; }
+    .about-text p {
+      color: rgba(249,245,238,0.65);
+      line-height: 1.8; font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .skills-list {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 1.5rem; list-style: none;
+    }
+    .skills-list li {
+      padding: 6px 16px; border-radius: 999px;
+      font-size: 0.8rem; font-weight: 500;
+      border: 1.5px solid;
+    }
+    .skills-list li:nth-child(3n+1) { border-color: var(--coral); color: var(--coral); }
+    .skills-list li:nth-child(3n+2) { border-color: var(--mint); color: var(--mint); }
+    .skills-list li:nth-child(3n)   { border-color: var(--blue); color: var(--blue); }
+
+    /* ── PROJECTS ── */
+    #projects { background: #141414; }
+    .projects-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      border-radius: 20px; overflow: hidden;
+      position: relative; aspect-ratio: 4/3;
+      cursor: none;
+      transition: transform 0.35s ease;
+    }
+    .project-card:hover { transform: scale(1.02); }
+    .project-card:hover .project-overlay { opacity: 1; }
+    .project-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover .project-bg { transform: scale(1.1); }
+    .p1 { background: linear-gradient(135deg, #FF5C5C 0%, #FF9A3C 100%); }
+    .p2 { background: linear-gradient(135deg, #4D96FF 0%, #6BCB77 100%); }
+    .p3 { background: linear-gradient(135deg, #C77DFF 0%, #4D96FF 100%); }
+    .p4 { background: linear-gradient(135deg, #FFD93D 0%, #FF5C5C 100%); }
+    .p5 { background: linear-gradient(135deg, #6BCB77 0%, #4D96FF 100%); }
+    .p6 { background: linear-gradient(135deg, #FF5C5C 0%, #C77DFF 100%); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 1.8rem;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .project-overlay h3 {
+      font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .project-overlay p { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 1rem; }
+    .project-tag {
+      display: inline-block;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 0.7rem; font-weight: 700;
+      background: var(--yellow); color: var(--dark);
+    }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    #contact h2 { margin-bottom: 0.8rem; }
+    #contact p {
+      color: rgba(249,245,238,0.55);
+      font-size: 1rem; margin-bottom: 2.5rem;
+    }
+    .contact-options {
+      display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .contact-chip {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 24px; border-radius: 999px;
+      font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .contact-chip:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+    .chip-email { background: var(--coral); color: #fff; }
+    .chip-github { background: #fff; color: #0F0F0F; }
+    .chip-linkedin { background: var(--blue); color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(249,245,238,0.08);
+      padding: 2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; color: rgba(249,245,238,0.3);
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer span { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--yellow); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--coral); border-radius: 999px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 0 1.5rem; }
+      #about { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { height: 300px; }
+      .card-big { width: 220px; height: 220px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">meu.portfolio</div>
+    <ul class="nav-links">
+      <li><a href="#about">Sobre</a></li>
+      <li><a href="#projects">Projetos</a></li>
+      <li><a href="#contact">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">✦ Disponível para projetos</div>
+      <h1>
+        <span class="line">Olá, eu</span>
+        <span class="line accent">crio coisas</span>
+        <span class="line accent-2">bonitas.</span>
+      </h1>
+      <p class="hero-sub">Designer & Desenvolvedor apaixonado por criar experiências digitais únicas, funcionais e cheias de personalidade.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">Ver projetos →</a>
+        <a href="#contact" class="btn btn-outline">Falar comigo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual">
+      <div class="about-card card-big">
+        <div class="num">12+</div>
+        Projetos entregues
+      </div>
+      <div class="about-card card-mid">
+        3 anos de experiência
+      </div>
+      <div class="about-card card-sm">
+        100% Dedicação
+      </div>
+    </div>
+    <div class="about-text">
+      <p class="section-label">// sobre mim</p>
+      <h2>Criatividade<br/>com propósito.</h2>
+      <p>Sou uma pessoa que acredita que bom design resolve problemas e conta histórias. Trabalho na interseção entre estética e funcionalidade.</p>
+      <p>Adoro aprender novas tecnologias e transformar ideias em experiências reais que fazem diferença para as pessoas.</p>
+      <ul class="skills-list">
+        <li>Figma</li>
+        <li>HTML / CSS</li>
+        <li>JavaScript</li>
+        <li>React</li>
+        <li>UI/UX Design</li>
+        <li>Branding</li>
+        <li>Motion</li>
+        <li>Git / GitHub</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="projects-header">
+      <div>
+        <p class="section-label">// trabalhos</p>
+        <h2>Projetos em<br/>destaque.</h2>
+      </div>
+      <a href="#contact" class="btn btn-outline">Ver todos →</a>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-bg p1">🛒</div>
+        <div class="project-overlay">
+          <h3>E-commerce App</h3>
+          <p>Loja online com UX focado em conversão e design vibrante.</p>
+          <span class="project-tag">UI Design</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg p2">🌿</div>
+        <div class="project-overlay">
+          <h3>App de Bem-estar</h3>
+          <p>Aplicativo mobile de meditação com jornada gamificada.</p>
+          <span class="project-tag">Mobile</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg p3">🎵</div>
+        <div class="project-overlay">
+          <h3>Plataforma Musical</h3>
+          <p>Dashboard para músicos independentes gerenciarem sua carreira.</p>
+          <span class="project-tag">Dashboard</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg p4">📊</div>
+        <div class="project-overlay">
+          <h3>Analytics SaaS</h3>
+          <p>Interface de dados complexos simplificada e visualmente clara.</p>
+          <span class="project-tag">Web App</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg p5">🏙️</div>
+        <div class="project-overlay">
+          <h3>Identidade Visual</h3>
+          <p>Branding completo para startup de mobilidade urbana.</p>
+          <span class="project-tag">Branding</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg p6">✨</div>
+        <div class="project-overlay">
+          <h3>Portfólio 3D</h3>
+          <p>Site interativo com experiências imersivas em WebGL.</p>
+          <span class="project-tag">Creative Dev</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">// contato</p>
+    <h2>Vamos criar algo<br/>incrível juntos?</h2>
+    <p>Estou aberto a freelas, colaborações e oportunidades incríveis.</p>
+    <div class="contact-options">
+      <a href="mailto:seu@email.com" class="contact-chip chip-email">✉️ Email</a>
+      <a href="https://github.com/seuusuario" target="_blank" class="contact-chip chip-github">🐙 GitHub</a>
+      <a href="https://linkedin.com/in/seuusuario" target="_blank" class="contact-chip chip-linkedin">💼 LinkedIn</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>Feito com ❤️ por <span>Você</span></div>
+    <div>© 2025 — Todos os direitos reservados</div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX - 9 + 'px';
+      cursor.style.top  = e.clientY - 9 + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
+      el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.project-card, .about-card, .contact-chip').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
